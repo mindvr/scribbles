@@ -7,6 +7,8 @@ Sources:
 
 ## [Project Amber](https://openjdk.org/projects/amber/)
 
+(changes to language)
+
 ### Pattern Matching
 
 JDK21 additions regarding patterns build on top of constructs already present in JDK17:
@@ -131,7 +133,7 @@ record Pair(Object x, Object y) {}
 
 // instanceof syntax
 //               |      record pattern    |  guard   |
-//              type->|        |<pattern
+//             type->|         |<-pattern
 if (p instanceof Pair(Integer x, Integer y) && y < 10) {
     System.out.println(x + ", " + y + " < 10");
 }
@@ -139,7 +141,7 @@ if (p instanceof Pair(Integer x, Integer y) && y < 10) {
 // switch syntax
 System.out.println(switch (o) {
 //       |      record pattern    |   guard     |
-//     type->|        |<pattern   
+//     type->|         |<-pattern   
     case Pair(Integer x, Integer y) when y < 10 -> x + ", " + y + " < 10";
 });
 ```
@@ -153,3 +155,23 @@ if (r instanceof Rectangle(ColoredPoint(Point(var x, var y), var c),
     System.out.println("Upper-left corner: " + x);
 }                            
 ```
+
+## Headlines only
+
+- [JEP 408: Simple Web Server](https://openjdk.org/jeps/408): 
+library/jdk utility to run file serving web server (??? lol)
+- [JEP 413: Code Snippets in Java API Documentation]((https://openjdk.org/jeps/413)): javadoc enhancement to embed code
+- [JEP 416: Reimplement Core Reflection with Method Handles](https://openjdk.org/jeps/416):
+internal rewrite to reduce maintenance cost
+- [JEP 421: Deprecate Finalization for Removal](https://openjdk.org/jeps/421): you will be missed (no)
+- [JEP 422: Linux/RISC-V Port](https://openjdk.org/jeps/422): new OpenJDK port
+- [JEP 439: Generational ZGC](https://openjdk.org/jeps/439): ZGC with generations model
+- [JEP 449: Deprecate the Windows 32-bit x86 Port for Removal](https://openjdk.org/jeps/449): 
+no virtual threads for you, Windows ~~10~~ XP 
+- [JEP 451: Prepare to Disallow the Dynamic Loading of Agents](https://openjdk.org/jeps/451): 
+future security enhancement, will require explicit `-XX:+EnableDynamicAgentLoading`, for now you'll get warnings
+- [JEP 452: Key Encapsulation Mechanism API](https://openjdk.org/jeps/452): something something modern crypto
+- [JEP 442: Foreign Function & Memory API (Third Preview)](https://openjdk.org/jeps/442): 
+future JNI successor: typed api written in pure Java
+- [JEP 448: Vector API (Sixth Incubator)](https://openjdk.org/jeps/448): 
+hardware agnostic vector computing support
