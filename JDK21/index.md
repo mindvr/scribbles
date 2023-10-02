@@ -160,7 +160,7 @@ if (r instanceof Rectangle(ColoredPoint(Point(var x, var y), var c),
 
 - [JEP 408: Simple Web Server](https://openjdk.org/jeps/408): 
 library/jdk utility to run file serving web server (??? lol)
-- [JEP 413: Code Snippets in Java API Documentation]((https://openjdk.org/jeps/413)): javadoc enhancement to embed code
+- [JEP 413: Code Snippets in Java API Documentation](https://openjdk.org/jeps/413): javadoc enhancement to embed code
 - [JEP 416: Reimplement Core Reflection with Method Handles](https://openjdk.org/jeps/416):
 internal rewrite to reduce maintenance cost
 - [JEP 421: Deprecate Finalization for Removal](https://openjdk.org/jeps/421): you will be missed (no)
