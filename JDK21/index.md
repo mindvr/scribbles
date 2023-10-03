@@ -156,18 +156,20 @@ if (r instanceof Rectangle(ColoredPoint(Point(var x, var y), var c),
 }                            
 ```
 
-#### [JEP 443: Unnamed Patterns and Variables (Preview)](https://openjdk.org/jeps/443)
+#### Preview Features
 
-Allows use of `_` to clearly indicate unused variable, e.g. when function returns a constant. 
-
-(!) It's a preview and requires enabling experimental features to compile and run.
+(!) Following JEPs require enabling experimental features to compile and run.
 
 ```shell
 javac --enable-preview --release 21 Jep443.java
 java --enable-preview Jep443
 ```
 
-In record matching `_` allows to omit decomposed variables or march anything in particular fields.
+##### [JEP 443: Unnamed Patterns and Variables (Preview)](https://openjdk.org/jeps/443)
+
+Allows use of `_` to clearly indicate unused variable, e.g. when function returns a constant. 
+
+In record matching `_` type pattern is shorthand for `var _` and marches everything.
 
 ```java
 record Point(int x, int y) { }
@@ -178,7 +180,8 @@ r instanceof ColoredPoint(Point(int x, int _), Color _)
 case Point(int x, _) -> ... x ...
 ```
 
-It can be used in other places as well. 
+In regular code. 
+
 ```java
 // examples
 Queue<Integer> q = ... // x1, y1, z1, x2, y2, z2, ...
@@ -199,6 +202,37 @@ try {
 
 ...stream.collect(Collectors.toMap(String::toUpperCase, _ -> "NODATA"))
 ```
+
+##### [JEP 430: String Templates (Preview)](https://openjdk.org/jeps/430)
+
+Java flavour for string interpolation. 
+
+```java
+String foo = "bar";
+System.out.println(STR."\{foo}"); // prints bar
+//              ->|    |<- template processor 
+```
+
+Template processors are intended to provide context related validation and escaping,
+e.g. json, sql, html, etc.
+
+##### [JEP 445: Unnamed Classes and Instance Main Methods (Preview)](https://openjdk.org/jeps/445)
+
+Stated goal is to reduce `psvm`-like ceremony for beginners in Java or programming in general.
+javac allows for unnamed classes in unnamed package, java does a main lookup (refer to JEP for details).
+
+`main` method may:
+- be an instance method
+- have any visibility aside from private
+- omit input parameters 
+
+Now Hello World could look concise as 
+```java
+void main() {
+    System.out.println("Hello world");
+}
+```
+
 ## Headlines only
 
 - [JEP 408: Simple Web Server](https://openjdk.org/jeps/408): 
