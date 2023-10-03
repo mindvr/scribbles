@@ -156,6 +156,49 @@ if (r instanceof Rectangle(ColoredPoint(Point(var x, var y), var c),
 }                            
 ```
 
+#### [JEP 443: Unnamed Patterns and Variables (Preview)](https://openjdk.org/jeps/443)
+
+Allows use of `_` to clearly indicate unused variable, e.g. when function returns a constant. 
+
+(!) It's a preview and requires enabling experimental features to compile and run.
+
+```shell
+javac --enable-preview --release 21 Jep443.java
+java --enable-preview Jep443
+```
+
+In record matching `_` allows to omit decomposed variables or march anything in particular fields.
+
+```java
+record Point(int x, int y) { }
+enum Color { RED, GREEN, BLUE }
+record ColoredPoint(Point p, Color c) { }
+
+r instanceof ColoredPoint(Point(int x, int _), Color _)
+case Point(int x, _) -> ... x ...
+```
+
+It can be used in other places as well. 
+```java
+// examples
+Queue<Integer> q = ... // x1, y1, z1, x2, y2, z2, ...
+while (q.size() >= 3) {
+   var x = q.remove();
+   var y = q.remove();
+   var _ = q.remove();
+   ... new Point(x, y) ...
+}
+
+String s = ...
+try { 
+    int i = Integer.parseInt(s);
+    ... i ...
+} catch (NumberFormatException _) { 
+    System.out.println("Bad number: " + s);
+}
+
+...stream.collect(Collectors.toMap(String::toUpperCase, _ -> "NODATA"))
+```
 ## Headlines only
 
 - [JEP 408: Simple Web Server](https://openjdk.org/jeps/408): 
