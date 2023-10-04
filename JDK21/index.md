@@ -251,6 +251,18 @@ System.out.println(inetAddress);
 
 [example](./Jep418) in full.
 
+### [JEP 400: UTF-8 by Default](https://openjdk.org/jeps/400)
+
+Before java.nio.* had UTF-8 default, while java.io.* was system dependent.
+Now UTF-8 is default charset (overridable by property) everywhere. 
+
+Problem:
+
+```
+java.io.FileReader(“hello.txt”) -> “こんにちは” (macOS)
+java.io.FileReader(“hello.txt”) -> “ã?“ã‚“ã?«ã?¡ã? ” (Windows (en-US))
+java.io.FileReader(“hello.txt”) -> “縺ォ縺。縺ッ” (Windows (ja-JP)
+```
 
 
 ## Headlines only
