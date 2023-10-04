@@ -156,7 +156,7 @@ if (r instanceof Rectangle(ColoredPoint(Point(var x, var y), var c),
 }                            
 ```
 
-#### Preview Features
+### Preview Features
 
 (!) Following JEPs require enabling experimental features to compile and run.
 
@@ -165,7 +165,7 @@ javac --enable-preview --release 21 Jep443.java
 java --enable-preview Jep443
 ```
 
-##### [JEP 443: Unnamed Patterns and Variables (Preview)](https://openjdk.org/jeps/443)
+#### [JEP 443: Unnamed Patterns and Variables (Preview)](https://openjdk.org/jeps/443)
 
 Allows use of `_` to clearly indicate unused variable, e.g. when function returns a constant. 
 
@@ -203,7 +203,7 @@ try {
 ...stream.collect(Collectors.toMap(String::toUpperCase, _ -> "NODATA"))
 ```
 
-##### [JEP 430: String Templates (Preview)](https://openjdk.org/jeps/430)
+#### [JEP 430: String Templates (Preview)](https://openjdk.org/jeps/430)
 
 Java flavour for string interpolation. 
 
@@ -216,7 +216,7 @@ System.out.println(STR."\{foo}"); // prints bar
 Template processors are intended to provide context related validation and escaping,
 e.g. json, sql, html, etc.
 
-##### [JEP 445: Unnamed Classes and Instance Main Methods (Preview)](https://openjdk.org/jeps/445)
+#### [JEP 445: Unnamed Classes and Instance Main Methods (Preview)](https://openjdk.org/jeps/445)
 
 Stated goal is to reduce `psvm`-like ceremony for beginners in Java or programming in general.
 javac allows for unnamed classes in unnamed package, java does a main lookup (refer to JEP for details).
@@ -232,6 +232,26 @@ void main() {
     System.out.println("Hello world");
 }
 ```
+
+## Virtual Threads
+
+## API
+
+### [JEP 418: Internet-Address Resolution SPI](https://openjdk.org/jeps/418)
+
+`InetAddressResolverProvider` SPI added to allow overriding platform name resolution (testing, new protocol support).
+
+```java
+InetAddress inetAddress = InetAddress.getByName("google.com");
+System.out.println(inetAddress);
+// default - google.com/142.250.206.142
+// return Stream.of(InetAddress.getByAddress(host, new byte[]{1, 1, 1, 1}));
+// with SPI registered - google.com/1.1.1.1
+```
+
+[example](./Jep418) in full.
+
+
 
 ## Headlines only
 
