@@ -233,7 +233,100 @@ void main() {
 }
 ```
 
-## Virtual Threads
+## Project Loom
+
+### [JEP 444: Virtual Threads](https://openjdk.org/jeps/444)
+
+Virtual Thread (VT) is `java.lang.Thread`, that's run by (mounted on) platform (OS) thread (PT).
+When VT blocks, PT moves VT's stack to the heap and executes next VT, allowing for high CPU utilization by few PTs. 
+When VT is unblocked, it's run by JVM scheduler (FIFO). 
+
+Implications:
+- VTs are cheap and abundant: no need for pooling
+- concurrency primitives works for VTs as for PTs
+- one can write in single-threaded thread-per-request style with same efficiency as in async frameworks, 
+keeping the benefits of single-threaded apps such as profiling, logging, etc
+- thread pools can no longer serve as an implicit rate limiters to other scarce resources (e.g. DB connections); 
+instead explicit rate limiting need to be done, e.g. with Semaphores
+- similarly, ThreadLocal becomes a bad storage for expensive resources, since there could be numerous copies
+
+Running code on VT executor:
+```java
+try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+    IntStream.range(0, 1_000_000).forEach(i -> {
+        executor.submit(() -> {
+            Thread.sleep(Duration.ofSeconds(1));
+            return i;
+        });
+    });
+}  // executor.close() is called implicitly, and waits
+// took 7 seconds to complete
+```
+
+### Preview Features
+
+(!) Following JEPs require enabling experimental features to compile and run.
+
+```shell
+javac --enable-preview --release 21 Jep443.java
+java --enable-preview Jep443
+```
+
+#### [JEP 453: Structured Concurrency (Preview)](https://openjdk.org/jeps/453)
+
+When executing tres of tasks allows to declare inter-task dependencies and get, for example, clear cascading subtask cancellation.
+
+```java
+// all subtask succeed to succeed
+try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
+    Supplier<String>  user  = scope.fork(() -> findUser()); // note Supplier instead of a future. 
+    Supplier<Integer> order = scope.fork(() -> fetchOrder());
+
+    scope.join()            // Join both subtasks
+         .throwIfFailed();  // ... and propagate errors
+
+    // Here, both subtasks have succeeded, so compose their results
+    return new Response(user.get(), order.get());
+}
+
+// any subtask succeed to succeed
+<T> T race(List<Callable<T>> tasks, Instant deadline) 
+        throws InterruptedException, ExecutionException, TimeoutException {
+    try (var scope = new StructuredTaskScope.ShutdownOnSuccess<T>()) {
+        for (var task : tasks) {
+            scope.fork(task);
+        }
+        return scope.joinUntil(deadline)
+                    .result();  // Throws if none of the subtasks completed successfully
+    }
+}
+```
+
+#### [JEP 446: Scoped Values (Preview)](https://openjdk.org/jeps/446)
+
+`ThreadLocal` replacement to distribute readonly shared variables between threads, controlled by try with resources. 
+
+```java
+class Frameowrk {
+    private final static ScopedValue<FrameworkContext> CONTEXT 
+                        = ScopedValue.newInstance();   // (1)
+
+    void serve(Request request, Response response) {
+        var context = createContext(request);
+        ScopedValue.where(CONTEXT, context)            // (2)
+                   .run(() -> Application.handle(request, response));
+    }
+    
+    public PersistedObject readKey(String key) {
+        var context = CONTEXT.get();            // (3)
+        var db = getDBConnection(context);
+        db.readKey(key);
+    }
+    
+    ...
+}
+```
+
 
 ## API
 
