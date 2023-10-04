@@ -237,6 +237,45 @@ void main() {
 
 ## API
 
+### [JEP 431: Sequenced Collections](https://openjdk.org/jeps/431)
+
+Added new interfaces to existing collections:
+```java
+interface SequencedCollection<E> extends Collection<E> {
+    // new method
+    SequencedCollection<E> reversed();
+    // methods promoted from Deque
+    void addFirst(E);
+    void addLast(E);
+    E getFirst();
+    E getLast();
+    E removeFirst();
+    E removeLast();
+}
+
+interface SequencedSet<E> extends Set<E>, SequencedCollection<E> {
+    SequencedSet<E> reversed();    // covariant override
+}
+
+interface SequencedMap<K,V> extends Map<K,V> {
+    // new methods
+    SequencedMap<K,V> reversed();
+    SequencedSet<K> sequencedKeySet();
+    SequencedCollection<V> sequencedValues();
+    SequencedSet<Entry<K,V>> sequencedEntrySet();
+    V putFirst(K, V);
+    V putLast(K, V);
+    // methods promoted from NavigableMap
+    Entry<K, V> firstEntry();
+    Entry<K, V> lastEntry();
+    Entry<K, V> pollFirstEntry();
+    Entry<K, V> pollLastEntry();
+}
+```
+
+
+![Class diagram](images/ordered-collections.png)
+
 ### [JEP 418: Internet-Address Resolution SPI](https://openjdk.org/jeps/418)
 
 `InetAddressResolverProvider` SPI added to allow overriding platform name resolution (testing, new protocol support).
