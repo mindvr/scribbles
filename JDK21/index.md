@@ -307,7 +307,7 @@ try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
 `ThreadLocal` replacement to distribute readonly shared variables between threads, controlled by try with resources. 
 
 ```java
-class Frameowrk {
+class Framework {
     private final static ScopedValue<FrameworkContext> CONTEXT 
                         = ScopedValue.newInstance();   // (1)
 
