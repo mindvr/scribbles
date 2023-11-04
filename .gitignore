@@ -6,3 +6,4 @@
 /flyway/.gradle/**
 /flyway/build/**
 
+/flyway/sample.db
