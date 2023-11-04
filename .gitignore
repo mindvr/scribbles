@@ -1,3 +1,8 @@
 .idea/**
 **/**.class
 **/**.jar
+**/**.iml
+/out/**
+/flyway/.gradle/**
+/flyway/build/**
+
