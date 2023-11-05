@@ -2,18 +2,21 @@ package com.github.mindvr;
 
 import org.flywaydb.core.Flyway;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
-        // Configure Flyway with SQLite database
+        boolean shouldClear = Arrays.asList(args).contains("--clear");
+        String path = args[args.length - 1];
+
         Flyway flyway = Flyway.configure()
                 .dataSource("jdbc:sqlite:sample.db", "", "")
-
+                .locations("classpath:migrations/" + path)
                 .load();
+        if (shouldClear) {
+            flyway.clean();
+        }
 
-        // Start the migration
         flyway.migrate();
-
-
-        System.out.println("Migration successful!");
     }
 }
