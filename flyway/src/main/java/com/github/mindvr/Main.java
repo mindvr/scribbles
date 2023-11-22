@@ -12,6 +12,7 @@ public class Main {
         Flyway flyway = Flyway.configure()
                 .dataSource("jdbc:sqlite:sample.db", "", "")
                 .locations("classpath:migrations/" + path)
+                .cleanDisabled(false)
                 .load();
         if (shouldClear) {
             flyway.clean();
