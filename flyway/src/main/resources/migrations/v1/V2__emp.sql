@@ -18,4 +18,4 @@ INSERT INTO emp(empno, ename, job, mgr, hiredate, sal, deptno)
 VALUES (7698, 'BLAKE', 'MANAGER', 7839, '1981-05-01', 2850, 30);
 
 INSERT INTO emp(empno, ename, job, mgr, hiredate, sal, deptno)
-VALUES (7698, 'BLAKE', 'MANAGER', 7839, '1981-05-01', 2850, 30);
+values (7566, 'JONES', 'MANAGER', 7839, '1981-02-04', 2975, 20);
