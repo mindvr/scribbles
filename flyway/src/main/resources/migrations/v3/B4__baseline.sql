@@ -1,3 +1,10 @@
+CREATE TABLE repeatable
+(
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    comment   TEXT
+);
+
 CREATE TABLE dept
 (
     deptno INTEGER,
