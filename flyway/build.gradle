@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'com.github.mindvr'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.flywaydb:flyway-core:10.0.0'
+    implementation 'org.xerial:sqlite-jdbc:3.43.2.2'
+}
+
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'com.github.mindvr.Main'
+        )
+    }
+}
+
+shadowJar {
+    archiveBaseName.set('flyway')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+}
