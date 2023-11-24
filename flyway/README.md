@@ -7,6 +7,6 @@ Happy scenarios.
 Failure modes:
 1. Duplicated versions: f1
 2. checksum changes: v1 -> f2
-3. baseline only + existing flyway log
+3. baseline only + existing flyway log v1 -> f3 (compared to --clear f3)
 4. sql fail
 5. java fail

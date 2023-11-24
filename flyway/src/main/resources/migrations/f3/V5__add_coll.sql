@@ -1,0 +1,2 @@
+ALTER TABLE emp
+    ADD COLUMN comm REAL;
