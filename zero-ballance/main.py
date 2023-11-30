@@ -21,6 +21,13 @@ def permutate(base, base_max, limit):
     return vectors
 
 
+# TODOs:
+# 0. swap to coordinates in vectors
+# 1. fill with realistic data
+# 2. input from stdin
+# 3. set exact, min add and max add
+# 4. pretty output as csv
+# 5. sort output by least added sum
 
 if __name__ == '__main__':
     base = [2, 3, 5]
