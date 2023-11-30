@@ -31,24 +31,34 @@ def v_length(base, v):
     else:
         raise TypeError()
 
-
 # TODOs:
 # 1. fill with realistic data
 # 2. input from stdin
-# 3. set exact, min add and max add
 # 4. pretty output as csv
-# 5. sort output by least added sum
 
 if __name__ == '__main__':
     # limit = 779
-    # base = [2, 3, 5]
-    # base_max = [-1, -1, -1]
-    base = [1, 3]
-    base_max = [3, -1]
+    base = [2, 3, 5]
+    base_max = [4, -1, -1]
+    # base = [1, 3]
+    # base_max = [3, -1]
+    s_exact, add_min, add_max = 10, 5, 10
+    limit = s_exact + add_max
     # base = [3]
     # base_max = [-1]
 
+
     assert len(base) == len(base_max)
+    permutations = permutate(base, base_max, limit)
+    permutations.sort(key=lambda x: v_length(base, x))
+
+    def match_criterion(v):
+        left = s_exact + add_min
+        l = v_length(v, base)
+        return l == s_exact or left <= l < limit
+    matches = [v for v in permutations if match_criterion(v)]
+
     print(base)
-    for v in permutate(base, base_max, 10):
-        print(v, v_length(base, v))
+    for v in matches:
+        l = v_length(base, v)
+        print(v, l, l - s_exact)
