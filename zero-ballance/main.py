@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+import sys
+
+
 def permutate(bases, base_limits, limit):
     if base_limits[0] == -1:
         eff_limit = limit
@@ -47,14 +50,21 @@ def ways_to_zero(bases, base_limits, exact, min_add, max_add):
 
 
 # TODOs:
-# 2. input from stdin
 # 4. pretty output as csv
 # 6. readme
 
-if __name__ == '__main__':
-    base = [449, 199, 15, 99, 199, 249, 349, 449, 499, 699]
-    base_max = [1, 1, 1, 5, 5, 5, 3, 3, 2, 1]
-    s_exact, add_min, add_max = 779, 500, 550
+def pars_ints(line):
+    return list(map(int, line.replace(',', ' ').split()))
+
+
+def main():
+    base = pars_ints(sys.stdin.readline())
+    base_max = pars_ints(sys.stdin.readline())
+    s_exact, add_min, add_max = pars_ints(sys.stdin.readline())
     print(base)
     for v in ways_to_zero(base, base_max, s_exact, add_min, add_max):
         print(v)
+
+
+if __name__ == '__main__':
+    main()
