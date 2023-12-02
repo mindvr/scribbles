@@ -46,11 +46,11 @@ def ways_to_zero(bases, base_limits, exact, min_add, max_add):
         l = v_length(v, bases)
         return l == exact or left <= l < limit
 
-    return [((v_length(bases, v), v_length(bases, v) - exact) + tuple(v)) for v in permutations if match_criterion(v)]
+    def add_total_and_diff(v):
+        return (v_length(bases, v), v_length(bases, v) - exact) + tuple(v)
 
+    return [add_total_and_diff(v) for v in permutations if match_criterion(v)]
 
-# TODOs:
-# 6. readme
 
 def pars_ints(line):
     return list(map(int, line.replace(',', ' ').split()))
