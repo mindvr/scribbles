@@ -35,8 +35,8 @@ docker push $repository_url/$image_name:amd64-$tag
 docker build --platform linux/arm64 -t $repository_url/$image_name:arm64-$tag .
 docker push $repository_url/$image_name:arm64-$tag
 
-# Creating and pushing the manifest
-docker manifest create $repository_url/$image_name:$tag \
+docker manifest rm $repository_url/$image_name:$tag
+docker manifest create -a $repository_url/$image_name:$tag \
     $repository_url/$image_name:amd64-$tag \
     $repository_url/$image_name:arm64-$tag
 
