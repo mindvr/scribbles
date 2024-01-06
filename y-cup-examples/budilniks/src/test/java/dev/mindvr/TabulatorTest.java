@@ -95,5 +95,23 @@ class TabulatorTest {
         k = x;
         tI = new int[]{1};
         assertEquals((long) (x - 1) * x + 1, tabulator.findT(x, k, tI));
+
+        // tMax - 1
+        x = 1_000_000_000;
+        tI = new int[]{1, x};
+        assertEquals(x, tabulator.findT(x, 2, tI));
+        assertEquals((long) x * x / 2, tabulator.findT(x, x, tI));
     }
+
+    @Test
+    void preprocess() {
+        int[] tIraw = new int[]{1, 2, 3, 4, 5, 6};
+        int[] tI = new int[]{1, 2, 3, 4, 5};
+        assertArrayEquals(tI, tabulator.preprocess(tIraw, 5));
+
+        tIraw = new int[]{5, 22, 17, 13, 8};
+        tI = new int[]{5, 8, 13, 17};
+        assertArrayEquals(tI, tabulator.preprocess(tIraw, 7));
+    }
+
 }
