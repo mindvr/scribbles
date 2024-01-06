@@ -65,11 +65,11 @@ public class Tabulator {
         return res;
     }
 
-    int[] preprocess(int[] raw, int k) {
+    int[] preprocess(int[] raw, int x) {
         Set<Integer> remainders = new HashSet<>();
         return Arrays.stream(raw)
                 .sorted()
-                .filter(v -> remainders.add(v % k))
+                .filter(v -> remainders.add(v % x))
                 .toArray();
     }
 }
