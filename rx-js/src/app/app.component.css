@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.block {
+  width: 30%; /* Adjust the width as per requirement */
+  padding: 10px;
+  box-sizing: border-box;
+}
