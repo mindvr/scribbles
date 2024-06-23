@@ -1,14 +1,14 @@
 package dev.mindvr.demo;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-
-import java.util.function.Function;
 
 public class Server extends AbstractVerticle {
     @Override
@@ -24,8 +24,26 @@ public class Server extends AbstractVerticle {
         Router router = Router.router(vertx);
         router.get("/ping").respond(this::ping);
         router.get("/stop").respond(this::stop);
+        router.post("/dispatch").respond(this::dispatch);
         return router;
     }
+
+    private Future<Void> dispatch(RoutingContext ctx) {
+        return ctx.request().body()
+                .andThen(AsyncResult::result)
+                .map(Buffer::toJsonObject)
+                .flatMap(obj -> {
+                    var topic = obj.getString("topic");
+                    var message = obj.getString("message");
+                    return vertx.eventBus().request(topic, message);
+                }).andThen(AsyncResult::result)
+                .map(msg -> (String) msg.body())
+                .flatMap(reply -> ctx.response()
+                        .putHeader("content-type", "text/plain")
+                        .end(reply)
+                );
+    }
+
 
     private Future<Void> ping(RoutingContext ctx) {
         return ctx.response()

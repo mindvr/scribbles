@@ -6,3 +6,12 @@ GET http://localhost:8888/ping
 
 GET http://localhost:8888/stop
 
+### dispatch
+
+POST http://localhost:8888/dispatch
+content-type: application/json
+
+{
+  "topic": "foo",
+  "message": "bar"
+}

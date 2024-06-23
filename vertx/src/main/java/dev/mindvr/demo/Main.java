@@ -8,5 +8,8 @@ public class Main {
         Vertx vertx = Vertx.vertx();
         vertx.deployVerticle(Server.class.getName())
                 .onSuccess(id -> System.out.println("deployed server with id " + id));
+        vertx.eventBus().consumer("foo", msg -> {
+            msg.reply("ack + " + msg.body());
+        });
     }
 }
