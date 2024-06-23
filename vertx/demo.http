@@ -1,0 +1,8 @@
+### ping
+
+GET http://localhost:8888/ping
+
+### stop
+
+GET http://localhost:8888/stop
+
