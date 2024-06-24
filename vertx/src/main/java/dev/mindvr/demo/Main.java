@@ -6,10 +6,13 @@ public class Main {
     public static void main(String[] args) {
         System.setProperty("vertxweb.environment", "dev");
         Vertx vertx = Vertx.vertx();
-        vertx.deployVerticle(Server.class.getName())
-                .onSuccess(id -> System.out.println("deployed server with id " + id));
-        vertx.eventBus().consumer("foo", msg -> {
-            msg.reply("ack + " + msg.body());
-        });
+        deploy(vertx, Server.class);
+        deploy(vertx, VertxWebClient.class);
+        deploy(vertx, MutinyWebClient.class);
+    }
+
+    private static void deploy(Vertx vertx, Class<?> clazz) {
+        vertx.deployVerticle(clazz.getName())
+                .onSuccess(id -> System.out.println("deployed " + clazz.getSimpleName()));
     }
 }
