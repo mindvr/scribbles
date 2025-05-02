@@ -1,0 +1,37 @@
+### ping
+
+GET http://localhost:8888/ping
+
+### stop
+
+GET http://localhost:8888/stop
+
+### dispatch test
+
+POST http://localhost:8888/dispatch
+content-type: application/json
+
+{
+  "topic": "foo",
+  "message": "bar"
+}
+
+### call webclient
+
+POST http://localhost:8888/dispatch
+content-type: application/json
+
+{
+  "topic": "webclient",
+  "message": ""
+}
+
+### call mutiny
+
+POST http://localhost:8888/dispatch
+content-type: application/json
+
+{
+  "topic": "vertxclient",
+  "message": ""
+}

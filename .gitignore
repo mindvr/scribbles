@@ -7,3 +7,7 @@
 /flyway/build/**
 
 /flyway/sample.db
+
+/rx-js/node_modules/**
+/rx-js/.idea/**
+/rx-js/.angular/**
